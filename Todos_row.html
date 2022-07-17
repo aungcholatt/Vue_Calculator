@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos List</title>
+    
+</head>
+<body>
+    
+    <div class="app">
+      <h3>Todos List</h3>
+      <input type="text" placeholder="Enter Pizza Name" v-model="pizzaData.name">
+      <SMALL style="color:red;" v-if="validation.nameStatus">Pizza Name is required!</SMALL><br>
+      <input type="text" placeholder="Enter Pizza Price" v-model="pizzaData.price">
+      <SMALL style="color:red;" v-if="validation.priceStatus">Price Amount is required!</SMALL><br>
+      <button @click="create()">Add</button>
+      <hr>
+
+      <table class="table" border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in items">
+            <td scope="row">{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+      <script>
+       const { createApp } = Vue
+    
+       createApp({
+           data() {
+            return{
+                 pizzaData:{
+                  name: "",
+                  price:""
+                 },
+                 items: [],
+                 validation:{
+                  nameStatus: false,
+                  priceStatus: false
+                 }
+                }
+              },
+                methods: {
+                    create () {
+                      this.validationCheck();
+                      // if(this.pizzaData.name==""){
+                      //   this.validation.nameStatus=true;
+                      // }else{
+                      //   this.validation.nameStatus=false;
+                      // }
+                      // if(this.pizzaData.price==""){
+                      //   this.validation.priceStatus=true;
+                      // }else{
+                      //   this.validation.priceStatus=false;
+                      // }
+                      if(!this.validation.nameStatus&&!this.validation.priceStatus){
+                        this.items.push({
+                        id: this.items.length +1,
+                        name:this.pizzaData.name,
+                        price:this.pizzaData.price
+                      })
+                      }
+                      this.clear();
+                    },
+                    validationCheck(){
+                      this.validation.nameStatus=this.pizzaData.name==""?true:false;
+                      this.validation.priceStatus=this.pizzaData.price==""?true:false;
+                    },
+                    clear(){
+                      this.pizzaData.name='';
+                      this.pizzaData.price='';
+                    }
+                 }
+              
+               }).mount('.app')
+        </script>
+
+    </body>
+</html>
